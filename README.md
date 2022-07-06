@@ -1,8 +1,5 @@
-![Project Image](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/1280px-Node.js_logo.svg.png)
+![Project Image](https://miro.medium.com/max/1838/1*hLl5yEjcYk9jQ8E8i7izWw.png)
 
-# NodeJS Wallet Rest Api
-
----
 
 ### Vesting Smart Contract
 
