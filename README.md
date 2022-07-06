@@ -4,7 +4,7 @@
 
 ---
 
-## Table of Contents
+### Vesting Smart Contract
 
 - [Description](#description)
 - [Technologies](#technologies)
