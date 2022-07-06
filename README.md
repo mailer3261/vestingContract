@@ -106,14 +106,6 @@ Note:- Apart from these there are some other internal funtions.
 - it allocates contract token balance to specific roles based on a certain predefined percentage
 ```
 
-
-### Get Transactions for
-
-```bash
-GET \ http://localhost:8080/view/transactions
-
-along with the request, we need to manually copy the authorization token received in the previous login response headers and set it to "Authorization" as a Bearer token and paste the Hash.
-```
 ## License and Copyright
 
 Copyright © 2022
