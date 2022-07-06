@@ -82,31 +82,33 @@ provide value 1 as input to ERC20 contract while deployment which creates an ini
 ERC20 : address
 ```
 
-### Login
+### Initially the Cliff and Vesting Duration period is set to "0", as if not then we will have to wait for a certain period of time before releasing the tokens.
 
 ```bash
-POST \ http://localhost:8080/login
- body: {
-    "email": "mailer3261@gmail.com",
-    "passWord": "test@123"
-}
-Note: Every login will generate a token that will be sent back from server in response headers for authorization purposes which will be needed while sending any transaction requests post login.
+ERC20 : address
 ```
 
-### Transfer Funds from one user to another.
+
+### Functions
 
 ```bash
-POST \ http://localhost:8080/transfer
-{
-    "senderEmail": "mailer3261@gmail.com",
-    "receiverEmail": "iitan3261@gmail.com",
-    "amount": 250
-}
+### allocateTokensForRoles
+- addBeneficiary
+- revokeBeneficiary
+- releaseTokens
+- withdrawTokens
+- getTokensReleased
+- getTokensWithdrawn
 
-along with the request, we need to manually copy the authorization token received in the previous login response headers and set it to "Authorization" as a Bearer token and paste the Hash.
+Note:- Apart from these there are some other internal funtions.
 ```
 
-Note: Each user is given a balance of 1000 on Signup, so transfer amount should be below that.
+### allocateTokensForRoles.
+
+```bash
+- it allocates contract token balance to specific roles based on a certain predefined percentage
+```
+
 
 ### Get Transactions for
 
