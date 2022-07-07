@@ -70,7 +70,7 @@ Test cases are written for testing various functions
 ### First, we need to create an ERC20 token whose address will be given as input while deploying
 
 ```bash
-provide value 1 as input to ERC20 contract while deployment which creates an initial supply of 10^18 tokens.
+provide value 1 as input to ERC20 contract while deployment which creates an initial supply of 10^6 tokens.
 ```
 
 ### Once token contract is deployed, we take its address as input and provide it as an input to vesting contract while deployment
