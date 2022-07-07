@@ -100,11 +100,14 @@ ERC20 : address
 Note:- Apart from these there are some other internal funtions.
 ```
 
-### allocateTokensForRoles.
+### Deployed Contract.
 
 ```bash
-- it allocates contract token balance to specific roles based on a certain predefined percentage
-```
+Contracts are deployed at Ropsten Network
+
+GATCoin contract is deployed at (0x149fEec8df7ae567B76B014bf3D19C88b50ADC35) Etherscan link - https://ropsten.etherscan.io/address/0x149fEec8df7ae567B76B014bf3D19C88b50ADC35
+
+Vesting contract is deployed at (0xaE8C750F28c647EFf3d704A8796AdeE795384ddB) Etherscan link - https://ropsten.etherscan.io/address/0xaE8C750F28c647EFf3d704A8796AdeE795384ddB
 
 ## License and Copyright
 
