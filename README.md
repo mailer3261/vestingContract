@@ -75,15 +75,9 @@ provide value 1 as input to ERC20 contract while deployment which creates an ini
 
 ### Once token contract is deployed, we take its address as input and provide it as an input to vesting contract while deployment
 
-```bash
-ERC20 : address
-```
+
 
 ### Initially the Cliff and Vesting Duration period is set to "0", as if not then we will have to wait for a certain period of time before releasing the tokens.
-
-```bash
-ERC20 : address
-```
 
 
 ### Functions
