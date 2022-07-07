@@ -109,13 +109,13 @@ GATCoin contract is deployed at (0x149fEec8df7ae567B76B014bf3D19C88b50ADC35) Eth
 
 Vesting contract is deployed at (0xaE8C750F28c647EFf3d704A8796AdeE795384ddB) Etherscan link - https://ropsten.etherscan.io/address/0xaE8C750F28c647EFf3d704A8796AdeE795384ddB
 
-## License and Copyright
+### License and Copyright
 
 Copyright © 2022
 Solulab Pvt Ltd.
 India
 
-## Author Info
+### Author Info
 
 - GitHub - [@mailer3261](https://github.com/mailer3261)
 
