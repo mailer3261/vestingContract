@@ -49,7 +49,7 @@ contract Vesting is Ownable {
         uint256 _advisorPercent,
         uint256 _PartnerPercent,
         uint256 _mentorPercent
-    ) public onlyOwner {
+    ) external onlyOwner {
         cliff = _cliffPeriodInDays * 1 days;
         duration = _vestingDurationInDays * 1 days;
         tgePercentage[0] = _advisorPercent;
