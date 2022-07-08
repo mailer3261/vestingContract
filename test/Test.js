@@ -1,5 +1,5 @@
 const Token = artifacts.require("GATCoin");
-var VestingContract = artifacts.require("./Vesting.sol");
+var VestingContract = artifacts.require("./vestingnew.sol");
 
 var chai = require("chai");
 
@@ -107,64 +107,48 @@ contract("all tests", async (accounts) => {
         ).to.be.a.bignumber.equal(new BN((7 / 100) * totalSupply - 7000));
       });
 
+      it("can release tokens based on cliff and vesting duration", async () => {
+        
+        let beneficiary = await vestingInstance.beneficiaries(beneficiaryTwo);
+
+        // check the vested amount and tokensWithdrawn value
+        expect(beneficiary.vestedAmount).to.be.a.bignumber.equal(new BN(10000));
+        expect(beneficiary.tokensWithdrawn).to.be.a.bignumber.equal(
+          new BN(0)
+        );
+
+        //check for the initial token balance of benefeciary
+        let balanceBefore = await instance.balanceOf(beneficiaryTwo);
+        expect(balanceBefore).to.be.a.bignumber.equal(new BN(0));
+
+        await expect(vestingInstance.releaseTokens(beneficiaryTwo)).to.be
+          .fulfilled;
+        
+
+        //checks if VestedAmount is adjusted
+        beneficiary = await vestingInstance.beneficiaries(beneficiaryTwo);
+        expect(beneficiary.vestedAmount).to.be.a.bignumber.equal(new BN(0));
+
+        //checks if tokensWithdrawn value is adjusted
+        expect(beneficiary.tokensWithdrawn).to.be.a.bignumber.equal(
+          new BN(10000)
+        );
+
+        //checks if tokens are transfered
+        expect(
+          await instance.balanceOf(beneficiaryTwo)
+        ).to.be.a.bignumber.equal(new BN(10000));
+      });
+
       it("can revoke a Benficiary", async () => {
         await vestingInstance.revokeBeneficiary(beneficiaryThree);
         const result = await vestingInstance.beneficiaries(beneficiaryThree);
         expect(result.isVestingRevoked).to.equal(true);
       });
 
-      it("can release tokens based on cliff and vesting duration", async () => {
-        await expect(vestingInstance.releaseTokens(beneficiaryTwo)).to.be
-          .fulfilled;
-        let beneficiary = await vestingInstance.beneficiaries(beneficiaryTwo);
-        //checks if currentVestedAmount is adjusted
-        expect(beneficiary.currentVestedAmount).to.be.a.bignumber.equal(
-          new BN(0)
-        );
-
-        //checks if tokensReleasedTillNow value is adjusted
-        expect(await beneficiary.tokensReleasedTillNow).to.be.a.bignumber.equal(
-          new BN(10000)
-        );
-        //checks if tokensWithdrawable value is adjusted
-        expect(
-          await vestingInstance.tokensWithdrawable(beneficiaryTwo)
-        ).to.be.a.bignumber.equal(new BN(10000));
-      });
-
-      it("can withdraw tokens", async () => {
-        //check if withdrawl amount value is avaliable to withdraw
-        await expect(vestingInstance.withdrawTokens(beneficiaryTwo, 100000)).to
-          .be.rejected; 
-
-        await expect(vestingInstance.withdrawTokens(beneficiaryTwo, 5000)).to.be
-          .fulfilled;
-
-        //checks if tokensWithdrawable value is adjusted
-        expect(
-          await vestingInstance.tokensWithdrawable(beneficiaryTwo)
-        ).to.be.a.bignumber.equal(new BN(5000));
-
-        //checks if tokensWithdrawn value is adjusted
-        let beneficiary = await vestingInstance.beneficiaries(beneficiaryTwo);
-        expect(await beneficiary.tokensWithdrawn).to.be.a.bignumber.equal(
-          new BN(5000)
-        );
-
-        //checks if tokens are transfered
-        expect(await instance.balanceOf(beneficiaryTwo)).to.be.a.bignumber.equal(
-          new BN(5000)
-        );
-      });
-
-      it("can check for the total number of tokens released.", async () => {
-        let data = await vestingInstance.getTokensReleased(beneficiaryTwo);
-        expect(data).to.be.a.bignumber.equal(new BN(5000));
-      });
-
       it("can check for total number of tokens withdrawn", async () => {
-        let data = await vestingInstance.getTokensWithdrawn(beneficiaryTwo);
-        expect(data).to.be.a.bignumber.equal(new BN(5000));
+        let data = await vestingInstance.beneficiaries(beneficiaryTwo);
+        expect(data.tokensWithdrawn).to.be.a.bignumber.equal(new BN(10000));
       });
     });
   });
