@@ -99,9 +99,9 @@ Note:- Apart from these there are some other internal funtions.
 ```bash
 Contracts are deployed at Ropsten Network
 
-GATCoin contract is deployed at (0x149fEec8df7ae567B76B014bf3D19C88b50ADC35) Etherscan link - https://ropsten.etherscan.io/address/0x149fEec8df7ae567B76B014bf3D19C88b50ADC35
+GATCoin contract is deployed at (0x149fEec8df7ae567B76B014bf3D19C88b50ADC35) Etherscan link - https://ropsten.etherscan.io/address/0xBf11AC495f6a2BBf76041734Ac701662e00C55b1
 
-Vesting contract is deployed at (0xaE8C750F28c647EFf3d704A8796AdeE795384ddB) Etherscan link - https://ropsten.etherscan.io/address/0xaE8C750F28c647EFf3d704A8796AdeE795384ddB
+Vesting contract is deployed at (0xaE8C750F28c647EFf3d704A8796AdeE795384ddB) Etherscan link - https://ropsten.etherscan.io/address/0x8c677BACF58D5F049780661fD7559Fd5EB50bcC7
 
 ### License and Copyright
 
