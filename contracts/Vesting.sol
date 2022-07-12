@@ -1,11 +1,11 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Vesting is Ownable {
+contract vestingnew is Ownable {
     uint256 private cliff;
     uint256 private duration;
 
@@ -43,6 +43,23 @@ contract Vesting is Ownable {
         setTGEPercent();
     }
 
+
+    modifier onlyBeneficiary(address _beneficiary) {
+        require(
+            beneficiaries[_beneficiary].beneficiary == _beneficiary,
+            "Not a Valid Beneficiary"
+        );
+        _;
+    }
+
+    modifier isRevoked(address _beneficiary) {
+        require(
+            !beneficiaries[_beneficiary].isVestingRevoked,
+            "Can't proceed, beneficiary revoked."
+        );
+        _;
+    }
+
     function setVestingAndTokenAllocationDetails(
         uint256 _cliffPeriodInDays,
         uint256 _vestingDurationInDays,
@@ -58,11 +75,8 @@ contract Vesting is Ownable {
     }
 
     function allocateTokensForRoles() external onlyOwner {
-        
         // Token balance of this contract
-        uint256 contractTokenBalance = IERC20(token).balanceOf(
-            address(this)
-        );
+        uint256 contractTokenBalance = IERC20(token).balanceOf(address(this));
         require(
             contractTokenBalance > 0,
             "No tokens allocated to the contract"
@@ -77,7 +91,6 @@ contract Vesting is Ownable {
         totalTokensAvaliablePerRole[2] =
             (contractTokenBalance * tgePercentage[2]) /
             100;
-
     }
 
     function addBeneficiary(
@@ -124,34 +137,10 @@ contract Vesting is Ownable {
         emit BeneficiaryAdded(_beneficiary, _role);
     }
 
-
-
-    modifier onlyBeneficiary(address _beneficiary) {
-        require(beneficiaries[_beneficiary].beneficiary == _beneficiary,"Not a Valid Beneficiary");
-        _;
-    }
-
-    modifier isRevoked(address _beneficiary) {
-        require(
-            !beneficiaries[_beneficiary].isVestingRevoked,
-            "Can't proceed, beneficiary revoked."
-        );
-        _;
-    }
-
-    function revokeBeneficiary(address _beneficiary) external onlyOwner {
-        require(
-            !validateBeneficiary(_beneficiary),
-            "Beneficiary does not exist."
-        );
-        require(
-            !beneficiaries[_beneficiary].isVestingRevoked,
-            "beneficiary already revoked."
-        );
-        beneficiaries[_beneficiary].isVestingRevoked = true;
-    }
-
-    function releaseTokens(address _beneficiary) external onlyBeneficiary(_beneficiary) {
+    function releaseTokens(address _beneficiary)
+        external
+        onlyBeneficiary(_beneficiary)
+    {
         uint256 releasableTokens;
         uint256 tokensToBeReleased;
         require(
@@ -168,26 +157,27 @@ contract Vesting is Ownable {
         tokensToBeReleased =
             releasableTokens -
             beneficiaries[_beneficiary].tokensWithdrawn;
-        // update released tokens for a beneficiary value
+
+        // update tokens withdrawn value
         beneficiaries[_beneficiary].tokensWithdrawn += tokensToBeReleased;
 
-        // update tokens received value
-        beneficiaries[_beneficiary].tokensWithdrawn += tokensToBeReleased;
+        //update vestedAmount value
+        beneficiaries[_beneficiary].vestedAmount -= tokensToBeReleased;
 
         //transfer the tokens to beneficiary
 
-        IERC20(token).transfer(_beneficiary , tokensToBeReleased);
+        IERC20(token).transfer(_beneficiary, tokensToBeReleased);
 
         // emit the event
         emit TokensReleased(_beneficiary, tokensToBeReleased);
-        emit TokensWithdrawn(_beneficiary,tokensToBeReleased);
+        emit TokensWithdrawn(_beneficiary, tokensToBeReleased);
     }
 
     function getTokensWithdrawn(address _beneficiary)
         external
+        view
         isRevoked(_beneficiary)
         onlyBeneficiary(_beneficiary)
-        view
         returns (uint256)
     {
         return beneficiaries[_beneficiary].tokensWithdrawn;
@@ -201,13 +191,24 @@ contract Vesting is Ownable {
 
     function validateBeneficiary(address _beneficiary)
         private
-        onlyOwner
         view
+        onlyOwner
         returns (bool)
     {
         return beneficiaries[_beneficiary].beneficiary == address(0);
     }
 
+    function revokeBeneficiary(address _beneficiary) external onlyOwner {
+        require(
+            !validateBeneficiary(_beneficiary),
+            "Beneficiary does not exist."
+        );
+        require(
+            !beneficiaries[_beneficiary].isVestingRevoked,
+            "beneficiary already revoked."
+        );
+        beneficiaries[_beneficiary].isVestingRevoked = true;
+    }
 
     function getTokensToRelease(address _beneficiary)
         private
@@ -235,6 +236,4 @@ contract Vesting is Ownable {
                 duration;
         }
     }
-
-
 }
