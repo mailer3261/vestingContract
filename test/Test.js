@@ -1,5 +1,5 @@
 const Token = artifacts.require("GATCoin");
-var VestingContract = artifacts.require("./vestingnew.sol");
+var VestingContract = artifacts.require("./Vesting.sol");
 
 var chai = require("chai");
 
